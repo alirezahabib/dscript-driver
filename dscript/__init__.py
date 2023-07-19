@@ -55,3 +55,47 @@ def set_relay(relay: int, state: bool):
 def set_relay_sure(relay: int, state: bool):
     while get_relay(relay) != state:
         toggle_relay(relay)
+
+
+def pulse_relay(relay: int):
+    # Not using toggle_relay() twice because the timing between the two requests is important
+    url = toggle_url(relay)
+
+    _sleep(pulse_duration)
+    response1 = requests.get(url, timeout=connection_timeout)
+    _sleep(pulse_duration)
+    response2 = requests.get(url, timeout=connection_timeout)
+    _sleep(pulse_duration)
+
+    if response1.status_code == 200 and response2.status_code == 200:
+        logging.info('Request successful')
+    else:
+        logging.error(f'Request failed with status codes: {response1.status_code} and {response2.status_code}')
+
+
+def pulse_relay_instant1(relay: int):
+    url = toggle_url(relay)
+
+    _sleep(pulse_duration)
+    requests.get(url)
+    requests.get(url)
+    _sleep(pulse_duration)
+
+
+def pulse_relay_instant2(relay: int):
+    url = toggle_url(relay)
+
+    # Prepare the sessions and requests
+    session1 = requests.Session()
+    request1 = requests.Request('GET', url)
+    prepped1 = session1.prepare_request(request1)
+
+    session2 = requests.Session()
+    request2 = requests.Request('GET', url)
+    prepped2 = session2.prepare_request(request2)
+
+    session1.send(prepped1)
+    session2.send(prepped2)
+
+
+
