@@ -98,4 +98,29 @@ def pulse_relay_instant2(relay: int):
     session2.send(prepped2)
 
 
+def _check_position(position: int):
+    if not (1 <= position <= 6):
+        raise ValueError('Gate position should be between 1 and 6.')
 
+
+def set_gate(position: int, switch: int, state: bool):
+    logging.info(f'Setting gate {position} switch {switch} to {state}')
+
+    _check_position(position)
+
+    if switch not in (1, 2):
+        raise ValueError('Gate switch should be 1 or 2.')
+
+    static = position + 14 * (switch - 1)
+    pulse = position + 7 + (1 - state)
+
+    set_relay_sure(static, True)
+    set_relay_sure(static + 1, True)
+    set_relay_sure(pulse, False)
+
+    _sleep(settle_down)
+    pulse_relay(pulse)
+    _sleep(settle_down)
+
+    set_relay_sure(static, False)
+    set_relay_sure(static + 1, False)
