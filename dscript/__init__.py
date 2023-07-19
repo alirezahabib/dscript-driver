@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Don't modify these values here (unless you want to change the defaults)
 # modify them in your script (after the import)
-pulse_duration = 0.050  # in seconds
+pulse_duration = 0.010  # in seconds
 slowdown = 0.010  # in seconds
 settle_down = 0.500  # in seconds
 ip_address = '169.254.100.1'
