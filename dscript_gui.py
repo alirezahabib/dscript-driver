@@ -3,6 +3,8 @@ from PIL import Image
 
 import dscript
 
+time_unit = 0.001  # 1 ms
+
 
 # Check if the ip address is valid
 def is_valid_ipv4(ip):
@@ -41,7 +43,6 @@ def set_gate(position: int, switch: int, state: bool):
 
 col1, col2, _, col3, col4 = st.columns([2, 2, 1, 2, 2])
 
-
 with col1:
     st.subheader('Switch 1')
     for i in range(6):
@@ -64,7 +65,6 @@ with col4:
     st.subheader('ㅤ')
     for i in range(6):
         if st.button(f'🔴 Disconnect {i + 1}', key=f'disconnect2-{i + 1}', use_container_width=True):
-            dscript.set_gate(i + 1, 2, False)
             set_gate(i + 1, 2, False)
 
 st.text('\n')
@@ -75,29 +75,24 @@ st.divider()
 
 def numeric_changed():
     st.session_state.slider = st.session_state.numeric
-    dscript.pulse_duration = st.session_state.numeric
+    dscript.pulse_duration = st.session_state.numeric * time_unit
 
 
 def slider_changed():
     st.session_state.numeric = st.session_state.slider
-    dscript.pulse_duration = st.session_state.slider
+    dscript.pulse_duration = st.session_state.slider * time_unit
 
 
 if 'slider' not in st.session_state:
-    st.session_state.slider = dscript.pulse_duration
+    st.session_state.slider = int(dscript.pulse_duration / time_unit)
 
 if 'numeric' not in st.session_state:
-    st.session_state.numeric = dscript.pulse_duration
+    st.session_state.numeric = int(dscript.pulse_duration / time_unit)
 
-st.number_input('Pulse edge duration (s)', min_value=0.0,
-                step=0.01,
-                format="%.3f",
+st.number_input('Pulse edge duration (ms)', min_value=0, step=10,
                 key='numeric', on_change=numeric_changed, help='⎍')
 
-st.slider('slider', min_value=0.0,
-          max_value=1.0,
-          format="%.3f",
-          step=0.001,
+st.slider('slider', min_value=0, max_value=200,
           key='slider', on_change=slider_changed, label_visibility='hidden')
 
 st.text('\n')
@@ -112,12 +107,12 @@ def port_changed():
 
 
 def slowdown_changed():
-    dscript.slowdown = st.session_state.slowdown
+    dscript.slowdown = st.session_state.slowdown * time_unit
 
 
 with st.expander("Advanced"):
     st.text('\n')
-    st.number_input('Slowdown (s)', min_value=0.0, value=dscript.slowdown, step=0.01, format='%.3f',
+    st.number_input('Slowdown (ms)', min_value=0, value=int(dscript.slowdown / time_unit), step=10,
                     key='slowdown', on_change=slowdown_changed,
                     help='Amount of time that the driver will wait for the relay before sending the next command.')
 
