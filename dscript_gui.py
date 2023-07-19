@@ -118,7 +118,7 @@ with st.expander("Advanced"):
     st.text('\n')
     st.number_input('Slowdown (s)', min_value=0.0, value=dscript.slowdown, step=0.01, format='%.3f',
                     key='slowdown', on_change=slowdown_changed,
-                    help='Amount of time that the driver will wait for the relay module before sending the next command.')
+                    help='Amount of time that the driver will wait for the relay before sending the next command.')
 
     st.number_input('Connection timeout (s)', min_value=0.0, value=dscript.connection_timeout, step=0.1, format='%.1f',
                     key='connection_timeout', on_change=change_timeout)
