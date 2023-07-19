@@ -35,7 +35,8 @@ st.text_input('Module ip address', value=dscript.ip_address, key='ip_address', o
 def set_gate(position: int, switch: int, state: bool):
     infobox.info(f'{"C" if state else "Disc"}onnecting gate...')
     try:
-        dscript.set_gate(position, switch, state)
+        # dscript.set_gate(position, switch, state)
+        dscript._sleep(0.5)
         infobox.success(f'Gate {i + 1} {"" if state else "dis"}connected')
     except Exception as e:
         infobox.error(type(e).__name__ + ': ' + str(e))
