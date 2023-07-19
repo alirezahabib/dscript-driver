@@ -39,36 +39,31 @@ def set_gate(position: int, switch: int, state: bool):
         infobox.error(type(e).__name__ + ': ' + str(e))
 
 
-col0, col1, col2, _, col3, col4, col5 = st.columns([1, 2, 2, 1, 1, 2, 2])
-
-with col0:
-    st.subheader('Switch 1')
-    for i in range(6):
-        st.checkbox(str(i))
+col1, col2, _, col3, col4 = st.columns([2, 2, 1, 2, 2])
 
 
 with col1:
-    st.subheader('ㅤ')
+    st.subheader('Switch 1')
     for i in range(6):
-        if st.button(f'🟢 Connect {i + 1}', key=f'connect1-{i + 1}'):
+        if st.button(f'🟢 Connect {i + 1}', key=f'connect1-{i + 1}', use_container_width=True):
             set_gate(i + 1, 1, True)
 
 with col2:
     st.subheader('ㅤ')
     for i in range(6):
-        if st.button(f'🔴 Disconnect {i + 1}', key=f'disconnect1-{i + 1}'):
+        if st.button(f'🔴 Disconnect {i + 1}', key=f'disconnect1-{i + 1}', use_container_width=True):
             set_gate(i + 1, 1, False)
 
-with col4:
+with col3:
     st.subheader('Switch 2')
     for i in range(6):
-        if st.button(f'🟢 Connect {i + 1}', key=f'connect2-{i + 1}'):
+        if st.button(f'🟢 Connect {i + 1}', key=f'connect2-{i + 1}', use_container_width=True):
             set_gate(i + 1, 2, True)
 
-with col5:
+with col4:
     st.subheader('ㅤ')
     for i in range(6):
-        if st.button(f'🔴 Disconnect {i + 1}', key=f'disconnect2-{i + 1}'):
+        if st.button(f'🔴 Disconnect {i + 1}', key=f'disconnect2-{i + 1}', use_container_width=True):
             dscript.set_gate(i + 1, 2, False)
             set_gate(i + 1, 2, False)
 
