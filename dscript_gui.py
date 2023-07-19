@@ -70,7 +70,8 @@ with col4:
 
 st.text('\n')
 if st.button('🔁 Reset All Relays', key='reset'):
-    dscript.reset_relays()
+    # dscript.reset_relays()
+    pass
 st.divider()
 
 
