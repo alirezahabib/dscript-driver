@@ -124,3 +124,10 @@ def set_gate(position: int, switch: int, state: bool):
 
     set_relay_sure(static, False)
     set_relay_sure(static + 1, False)
+
+
+def reset_relays():
+    logging.info(f'Resetting all relays to False')
+    for relay, state in enumerate(get_relays()):
+        if state:
+            toggle_relay(relay + 1)
