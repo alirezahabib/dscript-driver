@@ -75,7 +75,7 @@ class Connection:
         logging.info(f"Setting gate {gate} switch {switch} to {state}")
 
         _check_gate_number(gate)
-        assert 1 <= switch <= 2  # TODO: add error handling or use enum
+        assert 1 <= switch <= 2  # Add error handling or use enum
 
         static = gate + 14 * (switch - 1)
         pulse = gate + 7 + (1 - state)
@@ -106,7 +106,7 @@ class Connection:
         return response[0] > 0
 
     def get_input(self, input_num: int) -> bool:
-        # TODO: add error handling
+        # Add error handling
 
         command = '\x34' + chr(input_num)
         response = self._send_read_data(command)
