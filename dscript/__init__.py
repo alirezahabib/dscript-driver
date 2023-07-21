@@ -8,9 +8,9 @@ logging.basicConfig(level=logging.INFO)
 
 # Don't modify these values here (unless you want to change the defaults)
 # modify them in your script (after the import)
-pulse_duration = 0.010  # in seconds
-slowdown = 0.010  # in seconds
-settle_down = 0.500  # in seconds
+pulse_duration = 0.030  # in seconds
+slowdown = 0.030  # in seconds
+settle_down = 0.400  # in seconds
 ip_address = '169.254.100.1'
 port = 80
 connection_timeout = 4.0  # in seconds
@@ -126,7 +126,9 @@ def set_gate(position: int, switch: int, state: bool):
     pulse = position + 7 + (1 - state)
 
     set_relay_sure(static, True)
+    _sleep(settle_down)
     set_relay_sure(static + 1, True)
+    _sleep(settle_down)
     set_relay_sure(pulse, False)
 
     _sleep(settle_down)
@@ -134,6 +136,7 @@ def set_gate(position: int, switch: int, state: bool):
     _sleep(settle_down)
 
     set_relay_sure(static, False)
+    _sleep(settle_down)
     set_relay_sure(static + 1, False)
 
 
